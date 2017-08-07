@@ -11,10 +11,22 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
+# Static Files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.11/howto/static-files
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+'''
+Quando o ambiente está em produção, não é mais o django que fornece os
+arquivos estáticos, então é preciso configurar esse diretório para quando
+o projeto for posto online.
+'''
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -120,3 +132,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Update database configuration with $DATABASE_URL.
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+# Honor the 'X-Fowardded-Proto' header for request.is_secure().
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FOWARDDED_PROTO', 'https')
+
+# Allow all host headers.
+ALLOWED_HOSTS = ['*']
+
+
