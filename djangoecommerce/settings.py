@@ -35,7 +35,7 @@ o projeto for posto online.
 SECRET_KEY = 'zjbb!j#tg7!+u@7hi4tgmmb&7pt+fbe==q9%j9ks7fysfgz#19'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'core',
+    'catalog',
 ]
 
 MIDDLEWARE = [
@@ -143,4 +144,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FOWARDDED_PROTO', 'https')
 # Allow all host headers.
 ALLOWED_HOSTS = ['*']
 
-
+try:
+    from .local_settings import *
+except ImportError:
+    pass
