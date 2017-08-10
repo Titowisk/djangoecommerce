@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,10 +78,17 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                #apps
+                'catalog.context_processors.categories',
             ],
         },
     },
 ]
+'''
+O context_processors invoca funções toda vez que um template do projeto é renderizado.
+Assim, se eu quiser que uma variável minha funcione em todas as templates, eu devo
+alterar essa parte aqui.
+'''
 
 WSGI_APPLICATION = 'djangoecommerce.wsgi.application'
 
