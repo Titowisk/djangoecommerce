@@ -33,7 +33,20 @@ class ProductListTestCase(TestCase):
         response = self.client.get(self.url)
         self.assertTrue('product_list' in response.context)
         product_list = response.context['product_list']
-        self.assertEquals(product_list.count(), 10)
+        self.assertEquals(product_list.count(), 3)
+        """
+        O teste cria 10 produtos, então o paginator deve criar
+        4 páginas (3 pagas de 3 produtos + 1 pag. com 1 produto).
+        """
+        paginator = response.context['paginator']
+        self.assertEquals(paginator.num_pages, 4)
+
+    def test_page_not_found(self):
+        """
+        Quando a página requisitar um endereço que não existe, o django tem que retornar um error 404.
+        """
+        response = self.client.get('{}?page=5'.format(self.url))
+        self.assertEquals(response.status_code, 404)
 
 
 class CategoryTestCase(TestCase):

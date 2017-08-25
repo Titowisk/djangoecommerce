@@ -32,7 +32,12 @@ o projeto for posto online.
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'zjbb!j#tg7!+u@7hi4tgmmb&7pt+fbe==q9%j9ks7fysfgz#19'
+"""
+Não é aconselhavel que o secret key venha exposto assim. É melhor usar uma 
+variável de ambiente: os.getenv()
+A secret_key é: zjbb!j#tg7!+u@7hi4tgmmb&7pt+fbe==q9%j9ks7fysfgz#19
+"""
+SECRET_KEY = os.getenv('SECRET_KEY', '123')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -49,7 +54,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    #libs
+    'widget_tweaks',
+    #apps
     'core',
     'catalog',
 ]
@@ -151,6 +158,15 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FOWARDDED_PROTO', 'https')
 
 # Allow all host headers.
 ALLOWED_HOSTS = ['*']
+
+"""
+Para enviar emails da página de contato da aplicação.
+Por padrão, o backend é SMTP.
+"""
+EMAIL_HOST = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = 'admin@djangoecommerce.com'
 
 try:
     from .local_settings import *
