@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     #libs
     'widget_tweaks',
     #apps
+    'accounts',
     'core',
     'catalog',
 ]
@@ -167,6 +168,20 @@ EMAIL_HOST = ''
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 DEFAULT_FROM_EMAIL = 'admin@djangoecommerce.com'
+
+# auth
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_URL = 'logout'
+AUTH_USER_MODEL = 'accounts.User'
+"""
+Isso aqui é bem utilizado quando se quer permitir que o usuario faça login
+com redes sociais (Facebook, Twitter, Instagran...)
+"""
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.backends.ModelBackend',
+]
 
 try:
     from .local_settings import *

@@ -36,7 +36,7 @@ class ProductListTestCase(TestCase):
         self.assertEquals(product_list.count(), 3)
         """
         O teste cria 10 produtos, então o paginator deve criar
-        4 páginas (3 pagas de 3 produtos + 1 pag. com 1 produto).
+        4 páginas (3 paginas de 3 produtos + 1 pag. com 1 produto).
         """
         paginator = response.context['paginator']
         self.assertEquals(paginator.num_pages, 4)
