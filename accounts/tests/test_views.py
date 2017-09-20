@@ -78,11 +78,11 @@ class UpdatePasswordTestCase(TestCase):
 
     def test_update_password_ok(self):
         data = {
-            'old_password': '123', 'new_password1': 'test123', 'new_password2': 'test123'
+            'old_password': '123', 'new_password1': 'aloh4mor4', 'new_password2': 'aloh4mor4'
         }
         #Esse login acontece sem precisar acessar a url.
         self.client.login(username=self.user.username, password='123')
         self.client.post(self.url, data)
         self.user.refresh_from_db()
-        self.assertTrue(self.user.check_password('test123'))
+        self.assertTrue(self.user.check_password('aloh4mor4'))
 
