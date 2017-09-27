@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Pagamento via PayPal{% endblock %}
+
+{% block container %}
+<ol class="breadcrumb">
+	<li><a href="{% url 'index' %}">Início</a></li>
+	<li><a href="{% url 'checkout:cart_item' %}">Carrinho de Compras</a></li>
+	<li class="active">Pagamento via PayPal</li>
+</ol>
+<div class="page-header">
+	<h1>Você está sendo redirecionado para o PayPal</h1>
+</div>
+<div id="paypal" class="row">
+	{{ form.render }}
+</div>
+{% endblock %}
+
+<!-- Esse script serve para enviar automaticamente o formulário,
+ evitando que o usuario clique em um botão novamente.-->
+{% block scripts %}
+<script type="text/javascript">
+	$(function(){
+		$("#paypal form").submit();
+	});
+</script>
+{% endblock %}

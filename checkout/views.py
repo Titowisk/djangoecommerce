@@ -2,6 +2,8 @@
 
 from pagseguro import PagSeguro
 
+from paypal.standard.forms import PayPalPaymentsForm
+
 from django.shortcuts import get_object_or_404, redirect, HttpResponse
 from django.views.generic import RedirectView, TemplateView, ListView, DetailView
 from django.contrib import messages
@@ -150,6 +152,25 @@ def pagseguro_notification(request):
             order.pagseguro_update_status(status)
     return HttpResponse('OK')
 
+class PayPalView(LoginRequiredMixin, TemplateView):
+
+    template_name = 'checkout/paypal.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PayPalView, self).get_context_data(**kwargs)
+        order_pk = self.kwargs.get('pk')
+        order = get_object_or_404(
+            Order.objects.filter(user=self.request.user), pk=order_pk
+        )
+        paypal_dict = order.paypal()
+        paypal_dict['return_url'] = self.request.build_absolute_uri(
+            reverse('checkout:order_list')
+        )
+        paypal_dict['cancel_return'] = self.request.build_absolute_uri(
+            reverse('checkout:order_list')
+        )
+        context['form'] = PayPalPaymentsForm(initial=paypal_dict)
+        return context
 
 
 create_cartitem = CreateCartItemView.as_view()
@@ -158,3 +179,4 @@ checkout = CheckoutView.as_view()
 order_list = OrderListView.as_view()
 order_detail = OrderDetailView.as_view()
 pagseguro_view = PagSeguroView.as_view()
+paypal_view = PayPalView.as_view()
