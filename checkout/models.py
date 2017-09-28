@@ -151,6 +151,9 @@ class Order(models.Model):
             index = index + 1
         return paypal_dict
 
+    def complete(self):
+        self.status = 1
+        self.save()
 
 class OrderItem(models.Model):
 
