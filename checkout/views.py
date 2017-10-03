@@ -90,6 +90,7 @@ class CheckoutView(LoginRequiredMixin, TemplateView):
             order = Order.objects.create_order(
                 user=request.user, cart_items=cart_items
             )
+            cart_items.delete()
         else:
             messages.info(request, 'Não há items no carrinho')
             return redirect('checkout:cart_item')
@@ -189,7 +190,7 @@ def paypal_notification(sender, **kwargs):
         except order.DoesNotExist:
             pass
 
-valid_ipn_received.connect(paypal_notification) # funciona como um signals do django.
+valid_ipn_received.connect(paypal_notification)     # funciona como um signals do django.
 
 create_cartitem = CreateCartItemView.as_view()
 cart_item = CartItemView.as_view()

@@ -110,6 +110,8 @@ class Order(models.Model):
         self.save()
 
     def pagseguro(self):
+        self.payment_options = 'pagseguro'
+        self.save()
         pg = PagSeguro(
             email=settings.PAGSEGURO_EMAIL, token=settings.PAGSEGURO_TOKEN,
             config={'sandbox': settings.PAGSEGURO_SANDBOX}
@@ -135,16 +137,20 @@ class Order(models.Model):
         e não somente um único pedido.
         'invoice' é a identificação do pedido.
         """
+        self.payment_options = 'paypal'
+        self.save()
         paypal_dict = {
             'upload': '1',
             'business': settings.PAYPAL_EMAIL,
             'invoice': self.pk,
             'cmd': '_cart',
             'currency_code': 'BRL',
-            'charset': 'utf-8'
+            'charset': 'utf-8',
         }
         index = 1
         for item in self.items.all():
+            # order.created|date:"d/m/Y"
+            # paypal_dict['payment_date_{}'.format(index)] = "%H:%M:%S %b %d, %Y PDT"
             paypal_dict['amount_{}'.format(index)] = '%.2f' % item.price
             paypal_dict['item_name_{}'.format(index)] = item.product.name
             paypal_dict['quantity_{}'.format(index)] = item.quantity
