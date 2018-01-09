@@ -30,6 +30,8 @@ class Product(models.Model):
     # 'catalog.Category' é um jeito mais organizado de fazer a referência do ForeignKey.
     description = models.TextField('Descrição', blank=True)
     price = models.DecimalField('Preço', decimal_places=2, max_digits=8)
+    image = models.ImageField('Imagem', upload_to='products', blank=True, null=True)
+    # blank e null ativados é para não gerar problemas já que o site já está no ar.
 
     created = models.DateTimeField('Criado em', auto_now_add=True)
     modified = models.DateTimeField('Modificado em', auto_now=True)

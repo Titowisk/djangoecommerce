@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     # libs
     'widget_tweaks',
     'paypal.standard.ipn',
+    'easy_thumbnails',
     # apps
     'accounts',
     'core',
@@ -204,6 +205,13 @@ PAGSEGURO_SANDBOX = True
 
 PAYPAL_TEST = True
 PAYPAL_EMAIL = "rabelo51@gmail.com"
+
+# An alias is a specific set of thumbnail options.
+THUMBNAIL_ALIASES = {
+    '': {
+        'product_image': {'size': (335, 160), 'crop': True},
+    },
+}
 
 try:
     from .local_settings import *
